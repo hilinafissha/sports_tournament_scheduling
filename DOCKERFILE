@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+# Install MiniZinc
+RUN wget https://github.com/MiniZinc/MiniZincIDE/releases/download/2.9.4/MiniZincIDE-2.9.4-bundle-linux-x86_64.tgz \
+    && tar -xzf MiniZincIDE-2.9.4-bundle-linux-x86_64.tgz \
+    && mv MiniZincIDE-2.9.4-bundle-linux-x86_64 /opt/minizinc \
+    && rm MiniZincIDE-2.9.4-bundle-linux-x86_64.tgz
+
+
+# Set MiniZinc path
+ENV PATH="/opt/minizinc/bin:$PATH"
+
+
+RUN pip3 install minizinc
+
+
+
+CMD ["bash", "entry_point.sh"]
