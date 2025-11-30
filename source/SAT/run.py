@@ -6,6 +6,9 @@ import json
 from pathlib import Path
 import time
 
+import sat_dimacs
+import sat_decode
+
 BASE_DIR = Path(__file__).parent
 ROOT_DIR = BASE_DIR.parent.parent
 OUTPUT_DIR = ROOT_DIR / "res" / "SAT"
@@ -22,10 +25,10 @@ Z3_MODELS = {
     "z3_opt_sb"    : {"script": "sat_z3_opt_sb.py", "opt": True},
 }
 
-# Renamed CNF models → Glucose models
+# Glucose models
 GLUCOSE_MODELS = {
-    "glucose"    : {"generator": "sat_dimacs.py", "sym": False},
-    "glucose_sb" : {"generator": "sat_dimacs.py", "sym": True},
+    "glucose"    : {"sym": False},
+    "glucose_sb" : {"sym": True},
 }
 
 parser = argparse.ArgumentParser()
@@ -91,38 +94,51 @@ def run_z3_model(name, cfg, n):
 
 
 def generate_dimacs(model_cfg, n):
-    gen_script = BASE_DIR / model_cfg["generator"]
+    """
+    Build DIMACS in-process using sat_dimacs, so we keep reverse_var
+    for decoding, and write CNF to res/SAT/dimacs/{n}.cnf.
+    Returns: (path, reverse_var_copy) or (None, None) on failure.
+    """
     DIMACS_DIR.mkdir(parents=True, exist_ok=True)
     dimacs_out = DIMACS_DIR / f"{n}.cnf"
 
-    args = ["python3", str(gen_script), str(n)]
-    if model_cfg.get("sym"):
-        args.append("--sym")
+    try:
+        sat_dimacs.build_dimacs(n, use_sym=model_cfg.get("sym", False))
+    except Exception:
+        return None, None
 
     try:
-        subprocess.run(args, text=True, timeout=300)
-    except subprocess.TimeoutExpired:
-        return None
+        with dimacs_out.open("w") as f:
+            f.write(f"p cnf {sat_dimacs.next_var-1} {len(sat_dimacs.clauses)}\n")
+            for clause in sat_dimacs.clauses:
+                f.write(" ".join(str(l) for l in clause) + " 0\n")
+    except Exception:
+        return None, None
 
-    return dimacs_out if dimacs_out.exists() else None
+    return dimacs_out, sat_dimacs.get_reverse_map()
 
 
 def run_glucose(path):
+    """
+    Run Glucose on given CNF path, return (status, output).
+    status ∈ {"sat", "unsat", "unknown", "timeout"}.
+    """
     try:
+        # IMPORTANT: -model so we actually get assignments
         result = subprocess.run(
-            [GLUCOSE, str(path)],
+            [GLUCOSE, "-model", str(path)],
             text=True,
             capture_output=True,
             timeout=300
         )
         output = result.stdout + result.stderr
         if "s SATISFIABLE" in output:
-            return "sat"
+            return "sat", output
         if "s UNSATISFIABLE" in output:
-            return "unsat"
-        return "unknown"
+            return "unsat", output
+        return "unknown", output
     except subprocess.TimeoutExpired:
-        return "timeout"
+        return "timeout", ""
 
 
 for n in N_VALUES:
@@ -139,7 +155,7 @@ for n in N_VALUES:
             print(f"\nZ3 model: {name}")
             run_z3_model(name, cfg, n)
 
-    # Glucose (former CNF)
+    # Glucose 
     if args.mode in ["glucose", "all"]:
         for name, cfg in GLUCOSE_MODELS.items():
             if args.opt_only:
@@ -149,31 +165,35 @@ for n in N_VALUES:
 
             start_all = time.time()
 
-            cnf_path = generate_dimacs(cfg, n)
+            cnf_path, reverse_map = generate_dimacs(cfg, n)
 
             if cnf_path is None:
-                safe_update_json(json_path, {
-                    name: {
-                        "time": 300,
-                        "optimal": False,
-                        "obj": None,
-                        "sol": []
-                    }
-                })
+                safe_update_json(json_path, {name: timeout_result()})
                 print(f"[{name}] n={n} timeout (DIMACS generation)")
                 continue
 
-            status = run_glucose(cnf_path)
+            status, output = run_glucose(cnf_path)
             elapsed = time.time() - start_all
 
             if status == "sat":
-                print(f"[{name}] n={n} sat time={elapsed:.3f}s")
+                print(f"[{name}] n={n} sat time={elapsed:.3f}s, decoding...")
+
+                assignments = sat_decode.parse_glucose_solution(output)
+                sol = sat_decode.decode_schedule(assignments, reverse_map, n)
+
+                if sol is None:
+                    # SAT but we failed to reconstruct a full schedule we treat as timeout/failed approach
+                    print(f"[{name}] decoding failed → marking as timeout_result")
+                    safe_update_json(json_path, {name: timeout_result()})
+                    continue
+
+                # Valid schedule
                 safe_update_json(json_path, {
                     name: {
                         "time": int(min(elapsed, 300)),
                         "optimal": True,
                         "obj": None,
-                        "sol": []
+                        "sol": sol
                     }
                 })
 
@@ -189,14 +209,8 @@ for n in N_VALUES:
                 })
 
             else:
-                print(f"[{name}] n={n} timeout time=300s")
-                safe_update_json(json_path, {
-                    name: {
-                        "time": 300,
-                        "optimal": False,
-                        "obj": None,
-                        "sol": []
-                    }
-                })
+                # unknown or timeout
+                print(f"[{name}] n={n} timeout/unknown → time=300s, optimal=false")
+                safe_update_json(json_path, {name: timeout_result()})
 
 print("\nDone.\n")
