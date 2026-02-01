@@ -1,0 +1,15 @@
+{
+  "glucose": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          2,
+          1
+        ]
+      ]
+    ]
+  }
+}

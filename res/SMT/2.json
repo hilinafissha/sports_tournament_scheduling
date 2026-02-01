@@ -1,0 +1,258 @@
+{
+  "SMT_Z3_DECISION": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_Z3_DECISION_pin1w1": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_Z3_DECISION_SB": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_Z3_DECISION_SB_pin1w1": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_Z3_BOOL_OPT_D0": {
+    "time": 0,
+    "optimal": true,
+    "obj": 0,
+    "sol": [
+      [
+        [
+          2,
+          1
+        ]
+      ]
+    ]
+  },
+  "SMT_Z3_BOOL_OPT_pin1w1_D0": {
+    "time": 0,
+    "optimal": true,
+    "obj": 0,
+    "sol": [
+      [
+        [
+          2,
+          1
+        ]
+      ]
+    ]
+  },
+  "SMT_Z3_BOOL_OPT_SB_D1": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_Z3_BOOL_OPT_SB_pin1w1_D1": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_CVC5_DECISION": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": []
+  },
+  "SMT_CVC5_DECISION_pin1w1": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": []
+  },
+  "SMT_CVC5_DECISION_SB": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": []
+  },
+  "SMT_CVC5_DECISION_SB_pin1w1": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": []
+  },
+  "SMT_CVC5_BOOL_OPT": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": []
+  },
+  "SMT_CVC5_BOOL_OPT_pin1w1": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": []
+  },
+  "SMT_CVC5_BOOL_OPT_SB": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": []
+  },
+  "SMT_CVC5_BOOL_OPT_SB_pin1w1": {
+    "time": 300,
+    "optimal": false,
+    "obj": null,
+    "sol": []
+  },
+  "SMT_OPENSMT_DECISION": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_OPENSMT_DECISION_pin1w1": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_OPENSMT_DECISION_SB": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_OPENSMT_DECISION_SB_pin1w1": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_OPENSMT_BOOL_OPT_D1": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_OPENSMT_BOOL_OPT_pin1w1_D1": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_OPENSMT_BOOL_OPT_SB_D1": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "SMT_OPENSMT_BOOL_OPT_SB_pin1w1_D1": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  }
+}

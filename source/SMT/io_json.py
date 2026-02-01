@@ -2,6 +2,27 @@ import json
 from pathlib import Path
 
 def write_result_json(approach_name, json_path, solve_time, status, solution_matrix, obj=None):
+    """
+    status in {"sat", "unsat", "timeout"}.
+
+    SAT (solution found):
+        time  = actual solve time (clipped to 300)
+        optimal = True
+        obj  = int or None
+        sol  = non-empty
+
+    UNSAT (proved within time limit):
+        time    = actual solve time
+        optimal = True
+        obj     = None
+        sol     = []
+
+    TIMEOUT / unknown:
+        time    = 300
+        optimal = False
+        obj     = None
+        sol     = []
+    """
 
     json_path = Path(json_path)
     json_path.parent.mkdir(parents=True, exist_ok=True)

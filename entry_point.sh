@@ -5,7 +5,7 @@ trap cleanup SIGINT SIGTERM ERR EXIT
 # =============================
 # Configurable Parameters
 # =============================
-APPROACHES=("CP" "MIP" "SMT")
+APPROACHES=("CP" "MIP" "SAT" "SMT")
 DEFAULT_INSTANCE=6
 
 # =============================
@@ -31,23 +31,81 @@ usage() {
 Usage: $(basename "${BASH_SOURCE[0]}") [OPTIONS]
 
 Options:
-  -a, --approach    Approach to run (CP | MIP | SMT). Default: all available approaches
-  -n, --instance    Instance size (e.g., 6, 8, 10, 12). Default: ${DEFAULT_INSTANCE}
+  -a, --approach    Approach to run (CP | MIP | SMT). Default: Interactive Mode
+  -n, --instance    Instance size (e.g., 6, 8, 10, 12). Default: Interactive Mode
   -h, --help        Show this help and exit
-
-Examples:
-  ./entrypoint.sh --approach CP --instance 8
-  ./entrypoint.sh
 EOF
   exit 0
+}
+
+# =============================
+# Interactive Menu
+# =============================
+get_user_input() {
+  echo "=================================="
+  echo "   Solver Execution Wizard"
+  echo "=================================="
+  
+  # 1. Select Approach
+  echo "Which approach would you like to run?"
+  PS3="Select an option (1-5): "
+  
+  # We add "Run All" and "Quit" to the existing list
+  local options=("${APPROACHES[@]}" "Run All" "Quit")
+  
+  select opt in "${options[@]}"; do
+    case "$opt" in
+      "CP"|"MIP"|"SAT"|"SMT")
+        SELECTED_APPROACH="$opt"
+        break
+        ;;
+      "Run All")
+        SELECTED_APPROACH="" 
+        break
+        ;;
+      "Quit")
+        msg "Exiting..."
+        exit 0
+        ;;
+      *)
+        echo "Invalid option $REPLY. Please try again."
+        ;;
+    esac
+  done
+  echo "" 
+
+  # 2. Select Instance Size
+  while true; do
+    read -r -p "Enter Instance Size [hit enter to run all instance size from (6-16)]: " input_n
+    
+    # If user hits enter, run all instances
+    if [[ -z "$input_n" ]]; then
+      INSTANCE=0
+      break
+    fi
+
+    # Validate input is an integer
+    if [[ "$input_n" =~ ^[0-9]+$ ]]; then
+      INSTANCE="$input_n"
+      break
+    else
+      echo "Error: Please enter a valid integer."
+    fi
+  done
+  
+  echo "----------------------------------"
+  echo "Configuration: Approach=[${SELECTED_APPROACH:-ALL}] | Instance=[$INSTANCE]"
+  echo "----------------------------------"
+  echo ""
 }
 
 # =============================
 # Parse Command-Line Arguments
 # =============================
 parse_params() {
+  # Initialize global variables
   SELECTED_APPROACH=""
-  INSTANCE=0
+  INSTANCE="" 
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -75,8 +133,20 @@ parse_params() {
 main() {
   parse_params "$@"
 
+  # If arguments were NOT provided via CLI, run interactive wizard
+  if [[ -z "$SELECTED_APPROACH" ]] && [[ -z "$INSTANCE" ]]; then
+    get_user_input
+  fi
+
+  # Fallback to default instance if still empty (e.g. user passed -a but not -n)
+  if [[ -z "$INSTANCE" ]]; then
+    INSTANCE=$DEFAULT_INSTANCE
+    msg "(entrypoint) No instance specified, using default: ${INSTANCE}"
+  fi
+
+  # Execution Logic
   if [[ -z "$SELECTED_APPROACH" ]]; then
-    msg "(entrypoint) No specific approach selected — running all available approaches."
+    msg "(entrypoint) Running ALL available approaches."
     for ap in "${APPROACHES[@]}"; do
       run_approach "$ap" "$INSTANCE"
     done
