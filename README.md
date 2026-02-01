@@ -1,4 +1,4 @@
-# 🧩 CDMO Optimization Project
+# CDMO Optimization Project
 
 This project provides a **unified containerized environment** for running multiple optimization approaches — **CP (Constraint Programming)**, **MIP (Mixed Integer Programming)**, and **SMT (Satisfiability Modulo Theories)** — using **MiniZinc** and **Python**.  
 
@@ -6,33 +6,35 @@ Each approach runs its own solver logic and saves results to a corresponding fol
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 project/
 │
 ├── source/ # Source code for each approach
 │ ├── CP/
-│ ├── MIP/
-│ └── SMT/
+│ ├── SAT/
+│ ├── SMT/
+│ └── MIP/
 │
 ├── res/ # Output directory (results stored here)
 │ ├── CP/
-│ ├── MIP/
-│ └── SMT/
+│ ├── SAT/
+│ ├── SMT/
+│ └── MIP/
 │
 ├── entrypoint.sh # Main entrypoint controlling which approach to run
 └── Dockerfile # Docker build configuration
 ```
 
-## ⚙️ Requirements
+## Requirements
 
 - [Docker](https://www.docker.com/get-started) installed on your system  
 - (Optional) `git` if you’re cloning the repository
 
 ---
 
-## 🏗️ Building the Docker Image
+## Building the Docker Image
 
 From the root of the project, run:
 
@@ -50,21 +52,8 @@ To run the container:
 ```bash
 docker run --rm -v "$(pwd)/source:/sports_tournament_scheduling/source" -v "$(pwd)/res:/sports_tournament_scheduling/res" -it sts
 ```
-
-**For development mount the entrypoint script for easier iterations without rebuilding the image**
-```bash
-docker run --rm \
-  -v "$(pwd)/source:/sports_tournament_scheduling/source" \
-  -v "$(pwd)/res:/sports_tournament_scheduling/res" \
-  -v "$(pwd)/entrypoint.sh:/sports_tournament_scheduling/entrypoint.sh" \
-  -it sts
-
-```
-
-This will:
-- Run all approaches (CP, MIP, SMT)
-- Use the default sizes (6,8,10,12,16) 
-- Save all outputs under res/
+This will run the Approach wizard, which will let you choose which approach you want to run and the number of the instance size
+~~~
 
 ### 2. Run specific approach
 ```bash

@@ -1,13 +1,13 @@
 {
-  "glucose": {
+  "SMT_Z3_BOOL_DECISION": {
     "time": 0,
     "optimal": true,
     "obj": null,
     "sol": [
       [
         [
-          2,
-          1
+          1,
+          2
         ]
       ]
     ]

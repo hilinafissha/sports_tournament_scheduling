@@ -1,5 +1,5 @@
 {
-  "SMT_Z3_DECISION": {
+  "gecode_reg": {
     "time": 0,
     "optimal": true,
     "obj": null,
@@ -12,7 +12,7 @@
       ]
     ]
   },
-  "SMT_Z3_DECISION_pin1w1": {
+  "gecode_sb": {
     "time": 0,
     "optimal": true,
     "obj": null,
@@ -25,7 +25,7 @@
       ]
     ]
   },
-  "SMT_Z3_DECISION_SB": {
+  "chuffed_reg": {
     "time": 0,
     "optimal": true,
     "obj": null,
@@ -38,7 +38,7 @@
       ]
     ]
   },
-  "SMT_Z3_DECISION_SB_pin1w1": {
+  "chuffed_sb": {
     "time": 0,
     "optimal": true,
     "obj": null,
@@ -51,10 +51,140 @@
       ]
     ]
   },
-  "SMT_Z3_BOOL_OPT_D0": {
+  "cp_reg": {
     "time": 0,
     "optimal": true,
-    "obj": 0,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "cp_sb": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "gecode_reg_ss": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "gecode_sb_ss": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "chuffed_reg_ss": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "chuffed_sb_ss": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "cp_reg_ss": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "cp_sb_ss": {
+    "time": 0,
+    "optimal": true,
+    "obj": null,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "gecode_opt_reg": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "gecode_opt_sb": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          1,
+          2
+        ]
+      ]
+    ]
+  },
+  "chuffed_opt_reg": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
     "sol": [
       [
         [
@@ -64,10 +194,10 @@
       ]
     ]
   },
-  "SMT_Z3_BOOL_OPT_pin1w1_D0": {
+  "chuffed_opt_sb": {
     "time": 0,
     "optimal": true,
-    "obj": 0,
+    "obj": 1,
     "sol": [
       [
         [
@@ -77,7 +207,33 @@
       ]
     ]
   },
-  "SMT_Z3_BOOL_OPT_SB_D1": {
+  "cp_opt_reg": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          2,
+          1
+        ]
+      ]
+    ]
+  },
+  "cp_opt_sb": {
+    "time": 0,
+    "optimal": true,
+    "obj": 1,
+    "sol": [
+      [
+        [
+          2,
+          1
+        ]
+      ]
+    ]
+  },
+  "gecode_opt_reg_ss": {
     "time": 0,
     "optimal": true,
     "obj": 1,
@@ -90,7 +246,7 @@
       ]
     ]
   },
-  "SMT_Z3_BOOL_OPT_SB_pin1w1_D1": {
+  "gecode_opt_sb_ss": {
     "time": 0,
     "optimal": true,
     "obj": 1,
@@ -103,107 +259,7 @@
       ]
     ]
   },
-  "SMT_CVC5_DECISION": {
-    "time": 300,
-    "optimal": false,
-    "obj": null,
-    "sol": []
-  },
-  "SMT_CVC5_DECISION_pin1w1": {
-    "time": 300,
-    "optimal": false,
-    "obj": null,
-    "sol": []
-  },
-  "SMT_CVC5_DECISION_SB": {
-    "time": 300,
-    "optimal": false,
-    "obj": null,
-    "sol": []
-  },
-  "SMT_CVC5_DECISION_SB_pin1w1": {
-    "time": 300,
-    "optimal": false,
-    "obj": null,
-    "sol": []
-  },
-  "SMT_CVC5_BOOL_OPT": {
-    "time": 300,
-    "optimal": false,
-    "obj": null,
-    "sol": []
-  },
-  "SMT_CVC5_BOOL_OPT_pin1w1": {
-    "time": 300,
-    "optimal": false,
-    "obj": null,
-    "sol": []
-  },
-  "SMT_CVC5_BOOL_OPT_SB": {
-    "time": 300,
-    "optimal": false,
-    "obj": null,
-    "sol": []
-  },
-  "SMT_CVC5_BOOL_OPT_SB_pin1w1": {
-    "time": 300,
-    "optimal": false,
-    "obj": null,
-    "sol": []
-  },
-  "SMT_OPENSMT_DECISION": {
-    "time": 0,
-    "optimal": true,
-    "obj": null,
-    "sol": [
-      [
-        [
-          1,
-          2
-        ]
-      ]
-    ]
-  },
-  "SMT_OPENSMT_DECISION_pin1w1": {
-    "time": 0,
-    "optimal": true,
-    "obj": null,
-    "sol": [
-      [
-        [
-          1,
-          2
-        ]
-      ]
-    ]
-  },
-  "SMT_OPENSMT_DECISION_SB": {
-    "time": 0,
-    "optimal": true,
-    "obj": null,
-    "sol": [
-      [
-        [
-          1,
-          2
-        ]
-      ]
-    ]
-  },
-  "SMT_OPENSMT_DECISION_SB_pin1w1": {
-    "time": 0,
-    "optimal": true,
-    "obj": null,
-    "sol": [
-      [
-        [
-          1,
-          2
-        ]
-      ]
-    ]
-  },
-  "SMT_OPENSMT_BOOL_OPT_D1": {
+  "chuffed_opt_reg_ss": {
     "time": 0,
     "optimal": true,
     "obj": 1,
@@ -216,7 +272,7 @@
       ]
     ]
   },
-  "SMT_OPENSMT_BOOL_OPT_pin1w1_D1": {
+  "chuffed_opt_sb_ss": {
     "time": 0,
     "optimal": true,
     "obj": 1,
@@ -229,7 +285,7 @@
       ]
     ]
   },
-  "SMT_OPENSMT_BOOL_OPT_SB_D1": {
+  "cp_opt_reg_ss": {
     "time": 0,
     "optimal": true,
     "obj": 1,
@@ -242,7 +298,7 @@
       ]
     ]
   },
-  "SMT_OPENSMT_BOOL_OPT_SB_pin1w1_D1": {
+  "cp_opt_sb_ss": {
     "time": 0,
     "optimal": true,
     "obj": 1,
