@@ -3,16 +3,15 @@ import re
 
 def parse_glucose_solution(output: str):
     """
-    Parses Glucose SAT output and extracts variable assignments.
-    Returns: dict { dimacs_var_id : True/False }
+    Parse Glucose output, collect assignments.
+    Returns: dict {var_id: True/False}
     """
     assignments = {}
     for line in output.splitlines():
         line = line.strip()
         if not line.startswith("v"):
             continue
-        parts = line.split()[1:]
-        for tok in parts:
+        for tok in line.split()[1:]:
             if tok == "0":
                 continue
             lit = int(tok)
@@ -20,23 +19,24 @@ def parse_glucose_solution(output: str):
     return assignments
 
 
-def decode_schedule(assignments, reverse_var, n: int):
+def decode_schedule(assignments, reverse_var, pairings, n: int):
     """
-    Convert DIMACS assignments to STS schedule matrix using variable names
-    in reverse_var (0-indexed list of variable names).
+    Decode CNF model into checker format:
 
-    We only care about variables named: M_i_j_p_w
-    We interpret them as: in period p, week w, teams i (home) vs j (away).
+      sol[period][week] = [home, away]
 
-    Returns:
-        sol[p][w] = [home, away]
-        or None if some slot is missing -> treat as failure.
+    reverse_var : list mapping var_id -> variable name
+    pairings: output of the circle method (weeks[w][m] = (a,b))
     """
+
     periods = n // 2
     weeks = n - 1
+    matches_per_week = n // 2
+
     sol = [[None for _ in range(weeks)] for _ in range(periods)]
 
-    pat_M = re.compile(r"^M_(\d+)_(\d+)_(\d+)_(\d+)$")
+    import re
+    pat = re.compile(r"^X_(\d+)_(\d+)_(\d+)$")
 
     for vid, val in assignments.items():
         if not val:
@@ -47,19 +47,23 @@ def decode_schedule(assignments, reverse_var, n: int):
             continue
 
         name = reverse_var[idx]
-        m = pat_M.match(name)
+        m = pat.match(name)
         if not m:
             continue
 
-        i = int(m.group(1))
-        j = int(m.group(2))
+        w = int(m.group(1))
+        mi = int(m.group(2))
         p = int(m.group(3))
-        w = int(m.group(4))
 
-        # One match per (p,w) by construction, so just assign:
-        sol[p][w] = [i, j]
+        if not (0 <= w < weeks and 0 <= mi < matches_per_week and 0 <= p < periods):
+            continue
 
-    # any None will be decoding failure
+        a, b = pairings[w][mi]
+
+        # fixed orientation: a is home, b is away
+        sol[p][w] = [a, b]
+
+    # sanity check- all slots must be filled
     for p in range(periods):
         for w in range(weeks):
             if sol[p][w] is None:
